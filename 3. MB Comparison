@@ -1,0 +1,13 @@
+y1 = np.array([5,10,15,20,25,30,40,50,60,70,80,90])
+y2 = np.array([5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95])
+x1 = np.array([1075,1155,1119,1133,1125,1142,1150,1164,1174,1177,1170,1176])
+x2 = np.array([632,808,1070,1028,986,984,1004,1008,1058,1057,1059,1065,1069,1076,1087,1078,1085,1088,1082])
+
+plt.figure(figsize=(12,6))
+plt.plot(y1,x1, label = '200 $\mu$m')
+plt.plot(y2,x2, label = '300 $\mu$m')
+plt.title('Modulation Bandwidth comparison')
+plt.ylabel('Frequency where -3dB was intercepted (Hz)')
+plt.xlabel('Current (mA)')
+plt.legend()
+plt.show()
