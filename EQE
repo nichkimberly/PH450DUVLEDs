@@ -1,0 +1,38 @@
+##EXTERNAL QUANTUM EFFICINECY
+
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, index_col = 0)
+    
+    s = constants.c / 280e-9
+    
+    P = df['Power (mW)'] 
+    I = df['Current (mA)'] 
+    
+    s = 3e8 / 280e-9
+    
+    a = P / (6.626e-34 * s)
+    
+    b = I / 1.602e-19
+    
+    print(((a/b)*100).max())
+    #Create line for every plot, sixth graph 
+    plt.figure(6, figsize=(13,7))
+    #plt.grid(True)
+    plt.plot(I, ((a/b)*100), label = file.replace('.csv', ''))
+    plt.legend()
+    
+    #labels for the fourth
+    plt.xlabel('Current (mA)')
+    plt.ylabel('EQE %')
+    plt.title('Current against External Quantum Efficiency')
+    #labels for the fourth
+    plt.xlabel('Current (mA)')
+    plt.ylabel('EQE (%)')
+    plt.title('Device 1 I vs EQE')
+    
+    
+#Generate the plot
+plt.show()
+    
