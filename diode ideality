@@ -1,0 +1,37 @@
+##DIODE IDELITY FACTOR  
+
+from scipy.optimize import curve_fit
+from numpy.polynomial.polynomial import polyfit
+from sklearn import preprocessing
+
+
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, index_col = 0)
+    
+    #x and y co-ordinates 
+    x = np.array(df['Voltage (V)'])
+    y = np.array(df['Current (mA)'])
+    
+    #normalising x and y coordinates
+    xnorm = (x - min(x)) / (max(x) - min(x))
+    ynorm = (y - min(y)) / (max(y) - min(y))
+    
+    #lineof best fit 
+    m, b = np.polyfit(xnorm, ynorm, 1)
+    print('Diode Ideality factor is', m, file)
+    
+    #Create line for every plot, fifth graph
+    plt.figure(5, figsize=(12,6))
+    plt.plot(xnorm, ynorm, label = file.replace('.csv', ''))
+    #plt.plot(xnorm, m*xnorm + b)
+    plt.yscale('log')
+    plt.legend()
+    
+    #labels for the third
+    plt.xlabel('Voltage (Normalised)')
+    plt.ylabel('Current (Normalised)')
+    plt.title('Diode Ideality Factor')
+    
+plt.show()
