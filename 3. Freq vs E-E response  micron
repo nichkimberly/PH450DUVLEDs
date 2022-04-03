@@ -1,0 +1,72 @@
+#making a loop for over all files instead of carrying out individually
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file)
+    x = df['Hz']
+    y = df['dB']
+    
+    #Create line for every plot
+    plt.figure(1, figsize=(12,6))
+    z = (df['dB']-df['dB'].min())/(df['dB'].max()-df['dB'].min())
+    b = plt.plot(x, z, label = file.replace('.csv', ''))
+    plt.xscale('log')
+    #plt.yscale('log')
+    plt.legend()
+    #plt.ylim(10 ** 0, 10 ** -1)
+    
+    #plt.xlim(1060,1180)
+    #plt.ylim(0.3,0.8)
+    
+    #plt.axvline(x = 1176)
+    #finding the values x that correspond to y = 0.477...
+    #a = np.interp(0.477121255, df['dB'], df['Hz']) 
+    #print(file, a)
+    
+    #signal to noise ration 
+    plt.axhline(0.7)
+    #diffsnr = 0.7 - max(y) 
+    diffsnr = (np.interp(range(100,1000),x,y)) - 0.7 
+    #print(diffsnr, file)
+    #snr = range() #win a certain range of x-values, want to find the difference between the E-E response and the horizontal line 
+    
+    #labels for the first graph
+    plt.xlabel('Frequency (MHz)')
+    plt.ylabel('E-E response (dB)')
+    plt.title( 'Frequency vs E-E reponse')
+#plt.axhline(y = 0.477121255, color = 'grey', linestyle = '--', label = '-3dB')  
+plt.legend()
+#Generate the plot
+plt.show()
+
+N = 8000000
+#EbNo1_range = range(0,11) #INPUT - SNR from graph
+itr = len(diffsnr) #number or EbNodB is counted
+ber = [None]*itr #OUTPUT -null value with size of itr
+
+for n in range (0, itr): 
+ 
+    EbNo1 = diffsnr[n]   
+    EbNo=10.0**(EbNo1/10.0)
+    x = 2 * (rand(N) >= 0.5) - 1 # generating the random sequence (straight into symbols and not binary)
+    noise_std = 1/sqrt(2*EbNo) #generating the gaussian noise
+    y = x + noise_std * randn(N) # adding this noise to the signal
+    y_d = 2 * (y >= 0) - 1 #detecting the bits 
+    errors = (x != y_d).sum()
+    ber[n] = 1.0 * errors / N #calculating the BER
+    
+    #print("EbNo:", EbNo1)
+    #print("Error bits:", errors)
+    #print("BER - Error probability:", ber[n]) 
+        
+plt.figure(figsize=(12,6))
+plt.plot(diffsnr, ber, linestyle = 'dashed', color = 'blue', label = 'Simulated')
+plt.legend()
+#plt.axis([0, 10, 1e-6, 0.1])
+plt.xscale('linear')
+plt.yscale('log')
+plt.xlabel('Normalized signal to noise ratio(dB)')
+plt.ylabel('Probability of BER')
+plt.grid(True)
+plt.title('Modulation Simulation')
+plt.show()
