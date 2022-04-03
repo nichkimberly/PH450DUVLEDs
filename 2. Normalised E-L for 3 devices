@@ -1,1 +1,74 @@
+###DEVICE 1
+
+#making a loop for over all files instead of carrying out individually
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, skiprows=5)
+    
+    #Create line for every plot
+    plt.figure(1, figsize=(12,6))
+    z = (df['Device1']-df['Device1'].min())/(df['Device1'].max()-df['Device1'].min())
+    plt.plot(df['Wavelength [nm]'], z, label = file.replace('.csv', '')) #divided by the highest EL Spectra to normalise
+    plt.legend()
+    plt.xlim([260,360])
+    #plt.grid()
+   
+    #labels for the first graph
+    #plt.legend(loc = 'upper left')
+    plt.xlabel('Wavelength (nm)')
+    plt.ylabel(' Normalised E.L Spectra/Intensity (a.u)')
+    plt.title('Normalised E.L Spectra, Device 1')
+ 
+plt.show()
+
+
+###DEVICE 2
+
+#making a loop for over all files instead of carrying out individually
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, skiprows=5)
+    
+    #Create line for every plot
+    plt.figure(1, figsize=(12,6))
+    z = (df['Device2']-df['Device2'].min())/(df['Device2'].max()-df['Device2'].min())
+    plt.plot(df['Wavelength [nm]'], z, label = file.replace('.csv', '')) #divided by the highest EL Spectra to normalise
+    plt.legend()
+    plt.xlim([260,360])
+    #plt.grid()
+   
+    #labels for the first graph
+    #plt.legend(loc = 'upper left')
+    plt.xlabel('Wavelength (nm)')
+    plt.ylabel('Normalised E.L Spectra/Intensity (a.u)')
+    plt.title('Normalised E.L Spectra, Device 2')
+    
+plt.show()
+
+
+
+###DEVICE 3
+#making a loop for over all files instead of carrying out individually
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, skiprows=5)
+    
+    #Create line for every plot
+    plt.figure(1, figsize=(12,6))
+    z = (df['Device3']-df['Device3'].min())/(df['Device3'].max()-df['Device3'].min())
+    plt.plot(df['Wavelength [nm]'], z, label = file.replace('.csv', '')) #divided by the highest EL Spectra to normalise
+    plt.legend()
+    plt.xlim([240,340])
+    #plt.grid()
+   
+    #labels for the first graph
+    #plt.legend(loc = 'upper left')
+    plt.xlabel('Wavelength (nm)')
+    plt.ylabel(' Normalised E.L Spectra/Intensity (a.u)')
+    plt.title('Normalised E.L Spectra, Device 3')
+ 
+plt.show()
 
