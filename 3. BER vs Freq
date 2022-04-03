@@ -1,0 +1,62 @@
+for file in fileNames:
+    df = pd.read_csv(PATH + file) #READING THE .CSV FILE AND APPENDING IT TO THE LIST
+    freq = df['Hz'] #READING THE FREQUENCY COLUMN
+    y = df['dB'] #READING THE E-E REPOSNE COLUMN
+    x1 = (np.interp((range(0,1001,1)),freq,y)) #RANGE OF WANTED FREQUENCY 
+    snr = y + 60  #RANGE OF FREQUENCY VALUES MINUS THE NOISE RANDOMLY CHOSEN
+    
+    ###PLOTTING THE FREQUENCY VS NORMALISED E-E REPONSE GRAPH
+    #plt.figure(1, figsize=(12,6))
+    #z = (df['dB']-df['dB'].min())/(df['dB'].max()-df['dB'].min()) #NORMALISING E-E REPONSE
+    #plt.plot(freq,y, label = file.replace('.csv', ''))
+    #plt.xscale('log')
+    #plt.axhline(y = -40, label = '-40dB Noise')
+    #print(snr, file)
+    #plt.xlabel('Frequency (MHz)')
+    #plt.ylabel('E- E reponse (dB)')
+    #plt.title( 'Frequency vs  E-E response for 300 micron LED')
+#plt.axhline(y = 0.477121255, color = 'grey', linestyle = '--', label = '-3dB')  #CREATING THE -3DB LINE FOFR THE GRAPH
+#plt.legend()
+#plt.show()
+
+###CREATING THE PROBABILITY OF BER GRAPH
+
+N = 10000#NUMBER OF BITS 
+itr = len(snr) #COUNTING THE NUMBER OF SNR
+ber = [None]*itr #OUTPUT; NULL VALUE WITH THE SIZE OF ITR
+
+for n in range (0, itr): 
+    EbNo1 = snr[n]   
+    EbNo=10.0**(EbNo1/10.0)
+    x = 2 * (rand(N) >= 0.5) - 1 #GENERATING THE RANDOM SEQUENCE
+    noise_std = 1/sqrt(2*EbNo) #GENERATING THE GAUSSIAN NOISE
+    y = x + noise_std * randn(N) #ADDING THE NOISE TO THE SIGNAL
+    y_d = 2 * (y >= 0) - 1 #DETECTING THE BITS
+    errors = (x != y_d).sum() #ADDING THE ERRORS
+    ber[n] = 1.0 * errors / N #CALCULATING THE BER
+    
+    #print("EbNo:", EbNo1)
+    #print("Error bits:", errors)
+    #print("BER - Error probability:", ber[n]) 
+  
+    
+plt.figure(1,figsize=(12,6))
+###PLOTTING THE SNR VS THE PROBABILITY OF BER GRAPH  
+#plt.plot(snr, ber, color = 'blue')
+#plt.yscale('log')
+#plt.xlabel('SNR from 300 micron LED')
+#plt.ylabel('BER')
+#plt.grid(True)
+#plt.title('SNR against BER')
+
+#plt.figure(1, figsize=(12,6))
+###PLOTTING THE CHOSEN RANGE OF FREQUENCY AGAINST THE PROBABILITY OF BER
+plt.plot(freq, ber)
+plt.xlabel('Frequency (MHz)')
+plt.ylabel( 'BER')
+plt.yscale('log')
+plt.axhline(y = 0.0038, label = '3.8e-3 BER')
+plt.title('Frequency against BED')
+
+plt.legend()
+plt.show()
