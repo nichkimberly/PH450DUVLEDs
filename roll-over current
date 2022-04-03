@@ -1,0 +1,27 @@
+#ROLL OVER CURRENT
+
+#making a loop for over all files instead of carrying out individually
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, index_col = 0)
+     
+    #Create line for every plot
+    plt.figure(2, figsize=(12,6))
+    plt.plot(df['Current (mA)'], df['Power (mW)'], label = file.replace('.csv', ''))
+    plt.legend()
+    #plt.grid(which = 'both', linewidth = 0.5)
+    plt.xlim([28,40])
+    plt.ylim([0.5,0.7])
+        
+    #v_o = np.interp(0.65, df['Current (mA)'], df['Power (mW)'] )
+    #print(v_o, 'mA', file)
+        
+    #labels for the second graph
+    plt.xlabel('Current (mA)')
+    plt.ylabel('Power (mW)')
+    plt.title('Roll-Over Current, Current vs Power')
+    
+
+#Generate the plot
+plt.show()
