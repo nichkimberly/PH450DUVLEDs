@@ -1,0 +1,20 @@
+#making a loop for over all files instead of carrying out individually
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file)
+    #print(list(df.columns))
+    
+    #Create line for every plot
+    fig = plt.figure(1, figsize=(12,6))
+    ax1 = fig.add_subplot(111)
+    ax1.plot(df['db200'], df['mA1'], '.r-' , label = 'Device 1', markersize=10)
+    ax1.plot(df['db300'], df['mA2'], '.b-', label = 'Device 2', markersize=10)
+    
+    plt.legend()
+    plt.title('Modulation Bandwidth of 200 and 300',np.mu,'m' )
+    plt.xlabel('dB')
+    plt.ylabel('mA')
+
+#Generate the plot
+plt.show()
