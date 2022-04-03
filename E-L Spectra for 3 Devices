@@ -1,0 +1,87 @@
+import os
+import pandas as pd
+import matplotlib.pyplot as plt
+from glob import glob
+import pylab
+import scipy.optimize as opt
+import numpy as np
+from scipy.signal import chirp, find_peaks, peak_widths
+from scipy.interpolate import UnivariateSpline
+from sklearn import preprocessing
+from scipy.signal import argrelextrema
+
+PATH = r'C:\\Users\\kimbe\\OneDrive - University of Strathclyde\\Uni\\4th year\\Project\\Data JM\\2. DUV Spectra\\Device 1\\' 
+
+###This fetches all the files in the path set above
+fileNames = os.listdir(PATH)
+
+#This creates a filter file name list for files ending with .csv, the ones that I need
+fileNames = [file for file in fileNames if '.csv' in file]
+
+##DEVICE 1
+#making a loop for over all files instead of carrying out individually
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, skiprows=5)
+    
+    #Create line for every plot
+    plt.figure(1, figsize=(12,6))
+    plt.plot(df['Wavelength [nm]'], df['Device1'], label = file.replace('.csv', '')) #divided by the highest EL Spectra to normalise
+    plt.legend()
+    plt.xlim([260,360])
+    #plt.grid()
+   
+    #labels for the first graph
+    #plt.legend(loc = 'upper left')
+    plt.xlabel('Wavelength (nm)')
+    plt.ylabel(' E.L Spectra/Intensity (a.u)')
+    plt.title('E.L Spectra, Device 1')
+    
+
+plt.show()
+
+##DEVICE 2
+#making a loop for over all files instead of carrying out individually
+for file in fileNames[0:10:2]:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, skiprows=5)
+    
+    #Create line for every plot
+    plt.figure(1, figsize=(12,6))
+    plt.plot(df['Wavelength [nm]'], df['Device2'], label = file.replace('.csv', '')) #divided by the highest EL Spectra to normalise
+    plt.xlim([260,360])
+    plt.legend()
+    #plt.grid()
+   
+    #labels for the first graph
+    #plt.legend(loc = 'upper left')
+    plt.xlabel('Wavelength (nm)')
+    plt.ylabel('E.L Spectra/Intensity (a.u)')
+    plt.title('E.L Spectra, Device 2')
+
+plt.show()
+
+###DEVICE 3
+#making a loop for over all files instead of carrying out individually
+for file in fileNames[0:10:2]:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, skiprows=5)
+    
+    #Create line for every plot
+    plt.figure(1, figsize=(12,6))
+    plt.plot(df['Wavelength [nm]'], df['Device3'], label = file.replace('.csv', '')) #divided by the highest EL Spectra to normalise
+    plt.legend()
+    plt.xlim([260,330])
+    #plt.grid()
+   
+    #labels for the first graph
+    #plt.legend(loc = 'upper left')
+    plt.xlabel('Wavelength (nm)')
+    plt.ylabel('E.L Spectra/Intensity (a.u)')
+    plt.title('E.L Spectra for Device 3')
+    
+
+plt.show()
