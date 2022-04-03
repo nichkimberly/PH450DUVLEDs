@@ -1,0 +1,160 @@
+##DEVICE 1
+
+#making a loop for over all files instead of carrying out individually
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, skiprows=5) 
+    
+    #FWHM 
+    #results_half = peak_widths(df['Device1'], peaks, rel_height = 0.5)
+    #results_half[0]
+    
+    #results_full = peak_widths(df['Device1'], peaks, rel_height = 1)
+    #results_full[0]
+    
+    y_max = max(df['Device1'])
+    max_x = df['Wavelength [nm]'][df['Device1'].argmax()]
+    
+    plt.figure(1, figsize=(12,6))
+    #plt.plot(df['Wavelength [nm]'][max_x], df['Device1'][max_x], "xr")
+    #plt.plot(df['Wavelength [nm]'], )
+    
+    #plt.hlines(*results_half[1:])
+    #plt.hlines(*results_full[1:])
+    #Create line for every plot
+    plt.plot(df['Wavelength [nm]'], df['Device1'], label = file.replace('.csv', '')) 
+    plt.plot(max_x, y_max, "xr")
+    plt.legend()
+    plt.xlim([240,360])
+    
+    #labels for the first graph
+    #plt.legend(loc = 'upper left')
+    plt.xlabel('Wavelength (nm)')
+    plt.ylabel(' E.L Spectra/Intensity (a.u)')
+    plt.title('Peak Wavelength of E.L Spectra, Device 1')
+
+    print(max_x, file, "for Device 1")
+    #print(max_x)
+    
+plt.show()
+
+
+
+##DEVICE 2
+
+#making a loop for over all files instead of carrying out individually
+for file in fileNames[0:10:2]:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, skiprows=5) 
+    
+    #FWHM 
+    #results_half = peak_widths(df['Device1'], peaks, rel_height = 0.5)
+    #results_half[0]
+    
+    #results_full = peak_widths(df['Device1'], peaks, rel_height = 1)
+    #results_full[0]
+
+    y_max = max(df['Device2'])
+    max_x = df['Wavelength [nm]'][df['Device2'].argmax()]
+    
+    plt.figure(1, figsize=(12,6))
+    #plt.plot(df['Wavelength [nm]'][max_x], df['Device1'][max_x], "xr")
+    #plt.plot(df['Wavelength [nm]'], )
+    
+    #plt.hlines(*results_half[1:])
+    #plt.hlines(*results_full[1:])
+    #Create line for every plot
+    plt.plot(df['Wavelength [nm]'], df['Device2'], label = file.replace('.csv', '')) 
+    plt.plot(max_x, y_max, "xr")
+    plt.legend()
+    plt.xlim([240,360])
+    #plt.grid()
+   
+    #labels for the first graph
+    #plt.legend(loc = 'upper left')
+    plt.xlabel('Wavelength (nm)')
+    plt.ylabel(' E.L Spectra/Intensity (a.u)')
+    plt.title('Peak Wavelength of E.L Spectra, Device 2')
+
+    print(max_x, file, "for Device 2")
+    #print(max_x)
+    
+plt.show()
+
+
+
+###DEVICE 3
+#making a loop for over all files instead of carrying out individually
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, skiprows=5) 
+    
+    
+    #FWHM 
+    #results_half = peak_widths(df['Device1'], peaks, rel_height = 0.5)
+    #results_half[0]
+    
+    #results_full = peak_widths(df['Device1'], peaks, rel_height = 1)
+    #results_full[0]
+    
+    y_max = max(df['Device3'])
+    max_x = df['Wavelength [nm]'][df['Device3'].argmax()]
+    
+    plt.figure(1, figsize=(12,6))
+    #plt.plot(df['Wavelength [nm]'][max_x], df['Device1'][max_x], "xr")
+    #plt.plot(df['Wavelength [nm]'], )
+    
+    #plt.hlines(*results_half[1:])
+    #plt.hlines(*results_full[1:])
+    #Create line for every plot
+    plt.plot(df['Wavelength [nm]'], df['Device3'], label = file.replace('.csv', '')) 
+    plt.plot(max_x, y_max, "xr")
+    plt.legend()
+    plt.xlim([240,360])
+    #plt.grid()
+   
+    #labels for the first graph
+    #plt.legend(loc = 'upper left')
+    plt.xlabel('Wavelength (nm)')
+    plt.ylabel(' E.L Spectra/Intensity (a.u)')
+    plt.title('Peak Wavelength of E.L Spectra, Device 3')
+
+    print(max_x, file, "for Device 3")
+    #print(max_x)
+    
+plt.show()
+
+
+
+####Peak wavelength of all devices against current; comparison 
+
+PATH = r'C:\\Users\\kimbe\\OneDrive - University of Strathclyde\\Uni\\4th year\\Project\\Data JM\\DUV Spectra\\' 
+
+###This fetches all the files in the path set above
+fileNames = os.listdir(PATH)
+
+#This creates a filter file name list for files ending with .csv, the ones that I need
+fileNames = [file for file in fileNames if '.csv' in file]
+
+
+#making a loop for over all files instead of carrying out individually
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file) 
+
+    fig = plt.figure(figsize=(12,6))
+    ax1 = fig.add_subplot(111)
+    ax1.plot(df['1Current(mA)'], df['1PeakWavelength(nm)'], '.r-' , label = 'Device 1', markersize=10)
+    ax1.plot(df['2Current(mA)'], df['2PeakWavelength(nm)'], '.b-', label = 'Device 2', markersize=10)
+    ax1.plot(df['3Current(mA)'], df['3PeakWavelength(nm)'], '.g-', label = 'Device 3', markersize=10)
+    plt.legend()
+    plt.title('Peak wavelength vs Current')
+    plt.xlabel('Current (mA)')
+    plt.ylabel('Peak Wavelength (nm)')
+ 
+
+plt.show()
