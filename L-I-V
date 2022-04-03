@@ -1,0 +1,55 @@
+import os
+import pandas as pd
+import matplotlib.pyplot as plt
+from glob import glob
+import pylab
+import numpy as np
+from scipy import constants
+import pathlib
+
+#I-V CURVE AND POWER AGAINST CURRENT GRAPH 
+
+#This sets the path to the folder containing the .csv files
+# need the r in front else it'll create an error
+PATH = r'C:\\Users\\kimbe\\OneDrive - University of Strathclyde\\Uni\\4th year\\Project\\Data JM\\1. IV LI\\' 
+
+###This fetches all the files in the path set above
+fileNames = os.listdir(PATH)
+
+#making a loop for over all files instead of carrying out individually
+for file in fileNames:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, index_col = 0)
+    
+   for file in fileNames[0:4]:
+    
+    #Read .csv file and append to list
+    df = pd.read_csv(PATH + file, index_col = 0)
+    
+    #Create line for every plot, third graph
+    plt.figure(3, figsize=(12,6))
+    #plt.grid(True)
+    plt.plot(df['Voltage (V)'], df['Current (mA)'], label = file.replace('.csv', ''))
+    #plt.xlim([-5,20])
+    plt.legend(loc= 'best')
+    
+    #labels for the third
+    plt.xlabel('Voltage (V)')
+    plt.ylabel('Current (mA)')
+    plt.title('Device 1, I-V')
+    
+    #Create line for every plot, fourth graph 
+    plt.figure(4, figsize=(12,6))
+    plt.plot(df['Current (mA)'], df['Power (mW)'], label = file.replace('.csv', ''))
+    #plt.grid(True)
+    plt.legend(loc = 'best')
+    #plt.xlim([-5,40])
+    
+    #labels for the fourth
+    plt.xlabel('Current (mA)')
+    plt.ylabel('Power (mW)')
+    plt.title('Device 1, L-I')
+    
+   
+plt.show()
